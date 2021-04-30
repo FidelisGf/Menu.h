@@ -8,6 +8,10 @@
     void Subopcao();
     int Mainmenu();
     void Ranking();
+    void subrank();
+    void exec_rank();
+    void sair();
+    void historia();
 
 
 #endif // MENU_H_INCLUDED
