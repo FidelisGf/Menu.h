@@ -6,21 +6,46 @@
 #include <string.h>
 #include "menu.h"
 #include <locale.h>
+#include <stdbool.h>
+    int Mainmenu (){
+        setlocale(LC_ALL, "");
+        int escolha;// operador que vamos utilizar no while
+        do {
+            escolha = 0;
+            MenuP();//chamando a funçao menu principal, que vai aparecer na tela.
+            printf("Escolha uma opção [1/2/3/4]\t");
+            scanf("%i", &escolha);// le a opção do usuario
 
-    void op1(){
-     printf("     _______________________________\n");
-     printf("                                    \n");
-     printf("               EM BREVE...          \n\n");
-     printf("        (opção em desenvolvimento)  \n");
-     printf("     _______________________________\n");
+            switch(escolha){ //identifica a opção selecionada
+                case 1://jogar
+                    jogar(escolha);
+                    break;
 
-    }
-    void Ranking() {
+                case 2://rank
+                    exec_rank(escolha);
+                    break;
+                case 3:
+                    Sobre(escolha);
+                    break;
+                case 4://sair
+                    sair(escolha);
+                    break;
+                default://opção invalida
+                    system("cls");
+                    printf("\n     DIGITE UMA OPÇÂO VALIDA !");
+                    sleep(1);
+                    system("cls");
+                    break;
+        }
+
+    }while(true);
+}
+    void Ranking() {//função do ranking
         FILE* pt_file; // ponteiro responsavel por apontar ao arquivo log.txt
         char op_ranking[5]; // opcao (w = inserir dados / r = ler dados)
-        char leitura[100]; // vai ler oque esta escrito no arquivo
+        char leitura[1000]; // vai ler oque esta escrito no arquivo
         char nome[10][100]; // nome do jogadores
-        int pont[10]; // pontuacao dos jogadores
+        int pont[1000]; // pontuacao dos jogadores
         char tempChar[100];
         int i, tempInt;
         printf("       _______________________________________________\n\n");
@@ -58,16 +83,15 @@
                 strcpy(nome[i], nome[maior]);
                 strcpy(nome[maior], tempChar);
             }
-
         system("cls");
         pt_file = fopen("rankingLog.txt", "w"); // escreve no arquivo e apaga oque ja estava escrito
-        fprintf(pt_file, "     -----------------------------\n" );
+        fprintf(pt_file, "    -------------------------------\n" );
         fprintf(pt_file, "              TABELA\n\n");
 
         for (i = 0; i < n; i++) {
             fprintf(pt_file, "      TOP %d: %s com %d pontos\n\n", i + 1, nome[i], pont[i]);
         }
-        fprintf(pt_file, "     -----------------------------\n" );
+        fprintf(pt_file, "    -------------------------------\n" );
         printf("\n         DADOS SALVOS COM SUCESSO !\n");
         fclose(pt_file);
 
@@ -82,7 +106,7 @@
             exit(1);
         }
 
-        while (fgets(leitura, 100, pt_file) != NULL) {
+        while (fgets(leitura, 1000, pt_file) != NULL) {
             printf("%s", leitura);
         }
         Sleep(1000);
@@ -93,7 +117,30 @@
         Sleep(1000);
     }
 }
-
+    void jogar(int escolha){//função para jogar
+        while(true){
+            system("cls");
+            printf("     _______________________________\n");
+            printf("                                    \n");
+            printf("               EM BREVE...          \n\n");
+            printf("        (opção em desenvolvimento)  \n");
+            printf("     _______________________________\n");
+            printf("     -------------------------------\n\n");
+            printf("     *     [1] Voltar ao menu      *\n\n");
+            printf("     -------------------------------\n");
+            scanf("%i", &escolha);
+            if (escolha == 1){//volta pro menu
+                system("cls");
+                break;
+            }
+            else{
+                system("cls");
+                printf("Digite uma opção valida!\n");
+                sleep(1);
+                system("cls");
+            }
+        }
+    }
     void MenuP(){ //função do menu
         system("color 0A");
         printf("___________________________________\n");
@@ -112,229 +159,141 @@
         printf("|_________________________________|\n\n");
 
     }
-    void Opcao(){
-        system("Color 0D");
-        printf("---------------------------------------\n\n");
-        printf("|     [1]História                     |\n\n");
-        printf("|     [2]Créditos                     |\n\n");
-        printf("|     [3]Voltar Ao Menu Principal     |\n\n");
-        printf("---------------------------------------\n");
-
+    void Sobre(int escolha){//função sobre
+        while(true){
+            system("cls");
+            system("Color 0D");
+            printf("---------------------------------------\n\n");
+            printf("|     [1]História                     |\n\n");
+            printf("|     [2]Créditos                     |\n\n");
+            printf("|     [3]Voltar Ao Menu Principal     |\n\n");
+            printf("---------------------------------------\n");
+            scanf("%i", &escolha);
+            if (escolha == 1){//exibe a história
+                while(true){
+                    system("cls");
+                    historia();
+                    Subopcao();//exibe as subopções
+                    scanf("%i", &escolha);
+                    if(escolha == 1){
+                        system("cls");
+                        break;
+                    }
+                    else{
+                        system("cls");
+                        printf("Digite uma opção valida!\n");
+                        sleep(1);
+                        system("cls");
+                        }
+                    }
+                }
+                    else if (escolha == 2) {
+                        while(true){
+                            system("cls");
+                            JLG();//função que mostra nosso time
+                            printf("\n\n");
+                            Subopcao();//função que mostra as opções após exibir o time.
+                            scanf("%i", &escolha);
+                            if(escolha == 1){
+                                system("cls");
+                                break;
+                            }
+                            else{
+                                system("cls");
+                                printf("Digite uma opção valida!\n");
+                                sleep(1);
+                                system("cls");
+                            }
+                        }
+                    }
+                    else if(escolha == 3){
+                        system("cls");
+                        break;
+                    }
+                    else{
+                        system("cls");
+                        printf("Digite uma opção valida!\n");
+                        sleep(1);
+                        system("cls");
+                    }
+            }
     }
-    void Subopcao(){
-        printf("    -----------------------------------\n\n");
-        printf("    *    [1]Voltar ao menu 'SOBRE'    *\n\n");
-        printf("    *    [2]Ir para o Menu Principal  *\n\n");
+    void Subopcao(){//subopção q aparece no menu sobre
+        printf("    -----------------------------------\n");
+        printf("    *           [1]Voltar             *\n");
         printf("    -----------------------------------\n");
     }
     void JLG(){ //função para exibir o nosso time
         setlocale(LC_ALL, "");
         system("color 0E");
         printf("    ___________________________________\n\n");
-        printf("    |             JLG TEAM            |\n\n");
-        printf("    |          GABRIEL FIDELIS        |\n\n");
+        printf("    |            JLG TEAM             |\n");
+        printf("    |        ------------------       |\n");
+        printf("    |         GABRIEL FIDELIS         |\n\n");
         printf("    |         JOÃO PEDRO BEKER        |\n\n");
-        printf("    |          LUCAS HENRIQUE         |\n\n");
+        printf("    |         LUCAS HENRIQUE          |\n\n");
         printf("    |         GABRIEL MIGLIORINI      |\n");
         printf("    |_________________________________|\n");
 
     }
-    int Mainmenu (){
-
-        setlocale(LC_ALL, "");
-        int escolha;// operador que vamos utilizar no while
-        do {
-            int escolha = 0;
-            MenuP();                                            //chamando a funçao menu, que vai aparecer na tela
-            printf("Escolha uma opção [1/2/3/4]\t");
-            scanf("%i", &escolha);// le a opção do usuario
-
-            switch(escolha){ //identifica a opção selecionada
-                case 1:
-                    system("cls");//limpa tudo que está antes das linhas abaixo
-                    int escolha5;// operador que vamos usar dentro da opçao 1
-                    case1op:
-                    op1();
-                    printf("     -------------------------------\n\n");
-                    printf("     *     [1] Voltar ao menu      *\n\n");
-                    printf("     *     [2] Sair                *\n\n");
-                    printf("     -------------------------------\n");
-                    scanf("%i", &escolha5);
-
-                    if (escolha5 == 1){//volta pro menu
-                        system("cls");
-                        continue;
-                    }
-                    else if(escolha5 == 2){//fecha o programa
-                        system("cls");
-                        int escolha2;//operador que vamos utilizar na escolha de saida
-                        case1op2:
-                        printf("Deseja mesmo sair ?\n\n[1]para sim\n[2]para não\n");
-                        scanf("%i", &escolha2);
-                        if (escolha2 == 1 ){
-                            system("cls");
-                            system("color 0C");
-                            printf("\nZé precisava de você...\n");
-                            sleep(3);
-                            exit(0);
-                        }
-                        else if (escolha2 == 2){
-                            system("cls");
-                            continue;
-                        }
-                        else{
-                        system("cls");
-                        printf("Digite uma opção valida!\n");
-                        sleep(2);
-                        goto case1op2;
-                        }
-                    }
-                    else{
-                        system("cls");
-                        printf("Digite uma opção valida!\n");
-                        sleep(2);
-                        goto case1op;
-                        }
-                        break;
-                case 2:
-                    // ranking
-                    inicase2:
-                    system("cls");
-                    system("color 0C");
-                    int escolha4;// operador que vamos utilizar no case 2
-                    Ranking();
-                    printf("   ___________________________________________\n");
-                    printf("    \n   Pressione [1] para voltar ao menu principal\n");
-                    printf("    \n   Pressione [2] para voltar ao menu ranking\n");
-                    printf("   ____________________________________________\n");
-                    scanf("%d", &escolha4);
-                    if (escolha4 == 1) {
-                        system("cls");
-                        continue;
-                    }
-                    else if (escolha4 == 2) {
-                        system("cls");
-                        goto inicase2;
-                    }
-                    else {
-                        system("cls");
-                        printf("Digite uma opção valida!\n");
-                        sleep(2);
-                        goto inicase2;
-                    }
-                    break;
-
-
-
-                case 3://vai exibir uma opção para história e outra para créditos.
-                    system("cls");
-                    int escolha3;// operador que vamos utilizar na opção 3
-                    case3op:
-                    submenu://submenu começa aqui e vai até o final do case
-                    Opcao();//exibe as opções
-                    scanf("%i", &escolha3);
-
-
-                    if (escolha3 == 1){//exibe a história
-                        system("cls");
-                        case3op1:
-                        printf("   ----------------------------------------------------------------------------\n");
-                        printf("    Zé é um funcionário de uma loja de tecnologia, certo dia ele recebe a\n    oportunidade de sua vida, uma promoção para gerente em seu trabalho.\n    Porém, para a infelicidade de Zé, a inveja reina na empresa em que ele\n    trabalha , e um funcionário chamado Ricardo, contratou sabotadores para\n    impedir que Zé chegue ao trabalho no dia de sua promoção, assim à perdendo.\n    Zé não pode deixar essa promoção escapar, ajude-o !\n");
-                        printf("   ----------------------------------------------------------------------------\n\n");
-                        Subopcao();//exibe as subopções
-                        scanf("%i", &escolha4);
-                        if(escolha4 == 1){
-                            system("cls");
-                            goto submenu;//volta para o submenu
-                        }
-                        else if (escolha4 == 2) {
-                            system("cls");
-                            continue;
-                        }
-                        else{
-                            system("cls");
-                            printf("Digite uma opção valida!\n");
-                            sleep(2);
-                            system("cls");
-                        goto submenu;
-                        }
-                    }
-                    else if (escolha3 == 2) {
-                        system("cls");
-                        case3op2:
-                        JLG();//função que mostra nosso time
-                        printf("\n\n");
-                        Subopcao();//função que mostra as opções após exibir o time.
-                        scanf("%i", &escolha4);
-                        if(escolha4 == 1){
-                            system("cls");
-                            goto submenu;//volta para o submenu
-                        }
-                        else if (escolha4 == 2) {
-                            system("cls");
-                            continue;
-                        }
-                        else{
-                            system("cls");
-                            printf("Digite uma opção valida!\n");
-                            sleep(2);
-                            system("cls");
-                            goto case3op2;
-                        }
-                    }
-                    else if(escolha3 == 3){
-                        system("cls");
-                        continue;
-                    }
-                    else{
-                        system("cls");
-                        printf("Digite uma opção valida!\n");
-                        sleep(2);
-                        system("cls");
-                        goto case3op;
-                    }
-                    break;
-
-
-            case 4:
-                casefim:
+    void exec_rank(int escolha){//executa o rank
+        while(true){
+            // ranking
+            system("cls");
+            system("color 0C");
+            Ranking();
+            printf("   ___________________________________________\n");
+            printf("    \n   Pressione [1] para voltar ao menu principal\n");
+            printf("    \n   Pressione [2] para voltar ao menu ranking\n");
+            printf("   ____________________________________________\n");
+            scanf("%d", &escolha);
+            if (escolha == 1) {
                 system("cls");
-                printf("\nDeseja mesmo sair ? [1 para sim/2 para nao]\n\n");// verifica se o usuario realmente quer sair
-                int escolha2;//operador que vamos utilizar na escolha de saida
-                scanf("%i", &escolha2);
-                if (escolha2 == 1 ){ //caso seja 1, finalizamos o programa
-                    system("cls");
-                    system("color 0C");
-                    printf("\nZé precisava de você...\n");
-                    sleep(3);
-                    exit(1);
-                }
-                else if (escolha2 == 2) { //voltamos para o inicio ou seja, o menu.
-                    system("cls");
-                    continue;
-                }
-                else{
-                    system("cls");
-                    printf("Digite uma opção valida!\n");
-                    sleep(2);
-                    system("cls");
-                    goto casefim;
-                }
                 break;
-
-            default:
+            }
+            else if (escolha == 2) {
                 system("cls");
-                printf("\n     DIGITE UMA OPÇÂO VALIDA !");
+            }
+            else {
+                system("cls");
+                printf("Digite uma opção valida!\n");
                 sleep(2);
-                system("cls");
-                break;
-
-
+            }
         }
+    }
+    void sair(int escolha){
+        while(escolha != 2){
+            system("cls");
+            printf("\nDeseja mesmo sair ? [1 para sim/2 para nao]\n\n");// verifica se o usuario realmente quer sair
+            scanf("%i", &escolha);
+            if (escolha == 1 ){ //caso seja 1, finalizamos o programa
+                system("cls");
+                system("color 0C");
+                printf("\nZé precisava de você...\n");
+                sleep(3);
+                exit(0);
+            }
+            else if (escolha == 2) { //voltamos para o inicio ou seja, o menu.
+                system("cls");
 
-    }while(escolha != 4);
+            }
+            else{
+                system("cls");
+                printf("Digite uma opção valida!\n");
+                sleep(1);
+                system("cls");
+            }
+        }
+    }
+    void historia(){
+        printf("       ----------------------------------------------------------------------------\n");
+        printf("\t Zé é um funcionário de uma loja de tecnologia, certo dia ele recebe a\n");
+        printf("\t oportunidade de sua vida, uma promoção para gerente em seu trabalho.\n");
+        printf("\t Porém, para a infelicidade de Zé, a inveja reina na empresa em que ele\n ");
+        printf("\t trabalha , e um funcionário chamado Ricardo, contratou sabotadores para\n  ");
+        printf("\t impedir que Zé chegue ao trabalho no dia de sua promoção, assim à perdendo.\n ");
+        printf("\t Zé não pode deixar essa promoção escapar, ajude-o !\n");
+        printf("        ----------------------------------------------------------------------------\n\n");
 
-    return 0;
 
-
-}
+    }
