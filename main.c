@@ -7,5 +7,6 @@
 int main (){
 
     Mainmenu();
+    return 0;
 
 }
